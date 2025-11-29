@@ -198,3 +198,178 @@ h3 {
     margin-top: 3rem;
   }
 }
+
+/* Page background */
+.login-page {
+  background-color: #b8dcea; /* light blue */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+
+/* Title at the top */
+.login-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Login card container */
+.login-card {
+  background-color: #1f3a56; /* deep navy blue */
+  color: white;
+  width: 320px;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  border: 3px solid #d7b88f; /* gold border like in screenshot */
+  text-align: left;
+}
+
+/* Form labels */
+.login-card label {
+  display: block;
+  margin-top: 15px;
+  font-size: 1rem;
+}
+
+/* Input fields */
+.login-card input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 5px;
+  font-size: 1rem;
+}
+
+/* Login button */
+.login-btn {
+  margin-top: 20px;
+  width: 120px;
+  padding: 8px;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sign-up link */
+.login-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-links a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.register-wrapper {
+  max-width: 450px;
+  margin: 20px auto;
+  background: #d1ecf1;
+  padding: 20px;
+  border: 2px solid #333;
+  border-radius: 6px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.register-form input {
+  padding: 10px;
+  border: 2px solid #000;
+  border-radius: 3px;
+}
+
+.password-rules {
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.submit-btn {
+  background: #0b5ed7;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+}
+
+#toggle-password {
+  border: 1px solid #333;
+  padding: 6px 12px;
+  border-radius: 15px;
+  width: fit-content;
+  cursor: pointer;
+}
+
+
+/* add-inventory.css */
+
+/* Main container for inventory add form */
+.inv-main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Form labels */
+.inv-form-label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+/* Form inputs and select */
+.inv-form-input,
+.inv-form-select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  box-sizing: border-box;
+}
+
+/* Submit button */
+.inv-form-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.inv-form-button:hover {
+  background-color: #0056b3;
+}
+
+/* Flash messages */
+.inv-flash-message {
+  background-color: #e0ffe0;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #00a000;
+}
+
+/* Error messages */
+.inv-errors {
+  background-color: #ffe0e0;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #a00000;
+}
+
+.inv-errors li {
+  margin-left: 1rem;
+}

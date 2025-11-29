@@ -1,0 +1,68 @@
+<%- include('../partials/header') %>
+
+<main class="login-page">
+  <h1 class="login-title"><%= title %></h1>
+
+  <!-- Flash Messages -->
+  <%- messages() %>
+
+  <div class="login-card">
+    <form action="/account/login" method="post">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <p class="login-links">
+      No account? <a href="/account/register">Sign-up</a>
+    </p>
+  </div>
+</main>
+
+<script>
+  function togglePassword() {
+    const field = document.getElementById("password");
+    field.type = field.type === "password" ? "text" : "password";
+  }
+</script>
+
+<!-- <%- include('../partials/footer') %> -->
+
+<!-- <%- include('../partials/header') %>
+
+<main>
+  <h1>Login</h1>
+
+  <div class="login-box">
+    <form action="/account/login" method="post">
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+
+      <p class="password-rules">
+        Passwords must be minimum of 12 characters and include 1 capital letter,
+        1 number and 1 special character.
+      </p>
+
+      <button type="button" onclick="togglePassword()">Show Password</button>
+      <button type="submit">Login</button>
+    </form>
+
+    <p>No account? <a href="/account/register">Sign-up</a></p>
+  </div>
+</main>
+
+<script>
+  function togglePassword() {
+    const field = document.getElementById("password");
+    field.type = field.type === "password" ? "text" : "password";
+  }
+</script>
+
+<%- include('../partials/footer') %> -->

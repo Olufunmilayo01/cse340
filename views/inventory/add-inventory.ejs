@@ -1,0 +1,120 @@
+<%- include('../partials/header') %>
+
+<main class="inv-main">
+  <h1>Add New Inventory Item</h1>
+
+  <!-- Flash message -->
+  <% if (flash && flash.length > 0) { %>
+  <div class="inv-flash">
+    <% flash.forEach(message => { %>
+    <p><%= message %></p>
+    <% }) %>
+  </div>
+  <% } %>
+
+  <!-- Validation errors -->
+  <% if (errors && errors.length > 0) { %>
+  <div class="inv-errors">
+    <ul>
+      <% errors.forEach(error => { %>
+      <li><%= error %></li>
+      <% }) %>
+    </ul>
+  </div>
+  <% } %>
+
+  <form action="/inv/add-inventory" method="POST" class="inv-form">
+    <label for="classification_id" class="inv-form-label"
+      >Classification:</label
+    >
+    <div class="inv-form-select"><%- classificationList %></div>
+
+    <label for="inv_make" class="inv-form-label">Make:</label>
+    <input
+      type="text"
+      name="inv_make"
+      id="inv_make"
+      class="inv-form-input"
+      value="<%= formData.inv_make || '' %>"
+      required
+    />
+
+    <label for="inv_model" class="inv-form-label">Model:</label>
+    <input
+      type="text"
+      name="inv_model"
+      id="inv_model"
+      class="inv-form-input"
+      value="<%= formData.inv_model || '' %>"
+      required
+    />
+
+    <label for="inv_year" class="inv-form-label">Year:</label>
+    <input
+      type="number"
+      name="inv_year"
+      id="inv_year"
+      class="inv-form-input"
+      value="<%= formData.inv_year || '' %>"
+      required
+    />
+
+    <label for="inv_description" class="inv-form-label">Description:</label>
+    <textarea
+      name="inv_description"
+      id="inv_description"
+      class="inv-form-textarea"
+    >
+<%= formData.inv_description || '' %></textarea
+    >
+
+    <label for="inv_price" class="inv-form-label">Price:</label>
+    <input
+      type="number"
+      name="inv_price"
+      id="inv_price"
+      class="inv-form-input"
+      value="<%= formData.inv_price || '' %>"
+      required
+    />
+
+    <label for="inv_miles" class="inv-form-label">Miles:</label>
+    <input
+      type="number"
+      name="inv_miles"
+      id="inv_miles"
+      class="inv-form-input"
+      value="<%= formData.inv_miles || '' %>"
+      required
+    />
+
+    <label for="inv_color" class="inv-form-label">Color:</label>
+    <input
+      type="text"
+      name="inv_color"
+      id="inv_color"
+      class="inv-form-input"
+      value="<%= formData.inv_color || '' %>"
+    />
+
+    <label for="inv_image" class="inv-form-label">Image Path:</label>
+    <input
+      type="text"
+      name="inv_image"
+      id="inv_image"
+      class="inv-form-input"
+      value="<%= formData.inv_image || '/images/no-image-available.png' %>"
+    />
+
+    <label for="inv_thumbnail" class="inv-form-label">Thumbnail Path:</label>
+    <input
+      type="text"
+      name="inv_thumbnail"
+      id="inv_thumbnail"
+      class="inv-form-input"
+      value="<%= formData.inv_thumbnail || '/images/no-image-available.png' %>"
+    />
+
+    <button type="submit" class="inv-form-button">Add Inventory</button>
+  </form>
+</main>
