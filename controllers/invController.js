@@ -2,12 +2,10 @@ const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/");
 const { validationResult } = require("express-validator");
 
-const invCont = {};
-
-/* ***************************
- *  Build inventory by classification view
- * ************************** */
-invCont.buildByClassificationId = async function (req, res, next) {
+// ***************************
+// Build inventory by classification view
+// ***************************
+async function buildByClassificationId(req, res, next) {
   const classification_id = req.params.classificationId;
   const data = await invModel.getInventoryByClassificationId(classification_id);
   const grid = await utilities.buildClassificationGrid(data);
@@ -19,12 +17,12 @@ invCont.buildByClassificationId = async function (req, res, next) {
     nav,
     grid,
   });
-};
+}
 
-/* ***************************
- * Build vehicle detail view
- * ************************** */
-invCont.buildDetailView = async function (req, res, next) {
+// ***************************
+// Build vehicle detail view
+// ***************************
+async function buildDetailView(req, res, next) {
   const invId = req.params.inv_id;
 
   try {
@@ -40,15 +38,18 @@ invCont.buildDetailView = async function (req, res, next) {
   } catch (error) {
     next(error);
   }
-};
+}
 
-/* ***************************
- * Intentional error for Task 3
- * ************************** */
-invCont.throwError = async function (req, res, next) {
+// ***************************
+// Intentional error for Task 3
+// ***************************
+async function throwError(req, res, next) {
   throw new Error("Intentional server error for testing.");
-};
+}
 
+// ***************************
+// Management view
+// ***************************
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav();
   req.flash("notice", "Welcome to Inventory Management!");
@@ -60,7 +61,9 @@ async function buildManagement(req, res, next) {
   });
 }
 
-// Deliver Add Classification Form
+// ***************************
+// Add Classification Form
+// ***************************
 async function buildAddClassification(req, res, next) {
   let nav = await utilities.getNav();
   res.render("inventory/add-classification", {
@@ -71,12 +74,13 @@ async function buildAddClassification(req, res, next) {
   });
 }
 
-// Process Add Classification Form
+// ***************************
+// Process Add Classification
+// ***************************
 async function addClassification(req, res, next) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    // If server-side validation fails
     let nav = await utilities.getNav();
     return res.status(400).render("inventory/add-classification", {
       title: "Add Classification",
@@ -91,14 +95,12 @@ async function addClassification(req, res, next) {
   try {
     const result = await invModel.insertClassification(classification_name);
     if (result) {
-      // Rebuild nav to include new classification
-      await utilities.getNav();
-
+      await utilities.getNav(); // refresh nav
       req.flash(
         "notice",
         `Classification "${classification_name}" added successfully.`
       );
-      return res.redirect("/inv"); // Go back to management page
+      return res.redirect("/inv"); // back to management
     } else {
       let nav = await utilities.getNav();
       req.flash("notice", "Sorry, the classification could not be added.");
@@ -113,11 +115,14 @@ async function addClassification(req, res, next) {
     next(error);
   }
 }
-//Add Inventory
+
+// ***************************
+// Add Inventory Form
+// ***************************
 async function buildAddInventory(req, res, next) {
   try {
     const classificationList = await utilities.buildClassificationList();
-    const nav = await utilities.getNav(); // ✅ build navigation
+    const nav = await utilities.getNav();
 
     res.render("inventory/add-inventory", {
       title: "Add Inventory Item",
@@ -125,15 +130,17 @@ async function buildAddInventory(req, res, next) {
       flash: req.flash("notice"),
       errors: null,
       formData: {}, // sticky form
-      nav, // ✅ pass nav to partial
+      nav,
     });
   } catch (error) {
     next(error);
   }
 }
 
+// ***************************
+// Process Add Inventory
+// ***************************
 async function addInventory(req, res, next) {
-  // Destructure fields from the form
   let {
     classification_id,
     inv_make,
@@ -147,17 +154,15 @@ async function addInventory(req, res, next) {
     inv_thumbnail,
   } = req.body;
 
-  // Set default images if user left them blank
+  // Set default images if not provided
   inv_image = inv_image || "/images/no-image.png";
   inv_thumbnail = inv_thumbnail || "/images/no-image-thumbnail.png";
 
   try {
-    // Rebuild classification list with selected value for sticky form
     const classificationList = await utilities.buildClassificationList(
       classification_id
     );
 
-    // Basic server-side validation
     const errors = [];
     if (!classification_id) errors.push("Classification is required");
     if (!inv_make) errors.push("Make is required");
@@ -171,17 +176,16 @@ async function addInventory(req, res, next) {
     if (!inv_color) errors.push("Color is required");
 
     if (errors.length > 0) {
-      // Render the form again with errors and sticky data
       return res.status(400).render("inventory/add-inventory", {
         title: "Add Inventory Item",
         classificationList,
         flash: req.flash("notice"),
         errors,
-        formData: req.body, // sticky inputs
+        formData: req.body,
+        nav: await utilities.getNav(),
       });
     }
 
-    // Attempt to add the new inventory item
     const result = await invModel.addInventory({
       classification_id,
       inv_make,
@@ -196,32 +200,33 @@ async function addInventory(req, res, next) {
     });
 
     if (result) {
-      // Success: flash message and redirect to management page
       req.flash(
         "notice",
         `Inventory item "${inv_make} ${inv_model}" added successfully.`
       );
       return res.status(201).redirect("/inv/");
     } else {
-      // Database insertion failed
       return res.status(500).render("inventory/add-inventory", {
         title: "Add Inventory Item",
         classificationList,
         flash: req.flash("notice", "Failed to add inventory item."),
         errors: ["Database insertion failed"],
         formData: req.body,
+        nav: await utilities.getNav(),
       });
     }
   } catch (error) {
-    next(error); // Pass to global error handler
+    next(error);
   }
 }
 
 module.exports = {
-  invCont,
+  buildByClassificationId,
+  buildDetailView,
+  throwError,
   buildManagement,
   buildAddClassification,
   addClassification,
-  addInventory,
   buildAddInventory,
+  addInventory,
 };
